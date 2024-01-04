@@ -1,0 +1,24 @@
+services:
+  mysql-server:
+    container_name: mysql-server
+    image: mysql:5.7.44
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_DATABASE: tournage_paris
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+  app:
+    container_name: ichrak-app
+    image: ichrak-app:latest  # Replace with the actual image and tag
+    restart: on-failure
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql-server  # Ensure MySQL server is started before the application
+    volumes:
+      - app_data:/app/data
+volumes:
+    app_data:  # Define the app_data volume
+    db:
